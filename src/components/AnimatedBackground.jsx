@@ -39,7 +39,7 @@ import React from 'react';
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
-            filter: 'brightness(0.2)', // This reduces the intensity of the background
+            filter: 'brightness(0.4)', // This reduces the intensity of the background
           }}>
           {items.map((item) => (
             <motion.div

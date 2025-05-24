@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import MagicalCursor from './MagicalCursor';
 import candleVideo from '../asserts/candle.mp4';
 import fluteMusic from '../asserts/flute.mp3';
@@ -8,6 +8,7 @@ const CandleIntro = ({ onComplete }) => {
   const [isLit, setIsLit] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentMessage, setCurrentMessage] = useState(0);
+  const [hasBroken, setHasBroken] = useState(false); // <-- NEW FLAG
   const audioRef = useRef(null);
 
   const funMessages = [
@@ -21,50 +22,51 @@ const CandleIntro = ({ onComplete }) => {
   ];
 
   useEffect(() => {
-    // Only rotate messages after user starts playing
     if (isPlaying) {
       const messageInterval = setInterval(() => {
         setCurrentMessage(prev => (prev + 1) % funMessages.length);
-      }, 3000);
+      }, 1000);
       return () => clearInterval(messageInterval);
     }
   }, [isPlaying]);
 
   const startAudio = async () => {
-    try {
-      if (audioRef.current && !isPlaying) {
-        audioRef.current.volume = 0.1;
-        audioRef.current.loop = false;
-        await audioRef.current.play();
-        setIsPlaying(true);
-      }
-    } catch (error) {
-      console.error('Audio playback failed:', error);
+  if (hasBroken) return; // <-- PREVENT clicks after breaking magic
+  try {
+    if (audioRef.current && !isPlaying) {
+      audioRef.current.volume = 0.1;
+      audioRef.current.loop = false;
+      await audioRef.current.play();
+      setIsPlaying(true);
+
+      // Set timer to auto-break magic after 10 seconds if user doesn't click
+      setTimeout(() => {
+        if (!hasBroken) {
+          handleBreakMagic();
+        }
+      }, 15000); // 10 seconds
     }
+  } catch (error) {
+    console.error('Audio playback failed:', error);
+  }
+};
+
+
+  const handleBreakMagic = () => {
+    setHasBroken(true); // <-- Set flag to block further clicks
+    setIsLit(false);    // <-- Animate fade out
+
+    // Stop music if playing
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+
+    // Wait for fade-out animation then redirect (trigger onComplete)
+    setTimeout(() => {
+      onComplete(); // <-- Usually used to route to <App />
+    }, 1000);
   };
-
-  useEffect(() => {
-    const audio = audioRef.current;
-    
-    if (audio) {
-      audio.addEventListener('ended', () => {
-        setIsLit(false);
-        setTimeout(() => {
-          onComplete();
-        }, 2000);
-      });
-    }
-
-    return () => {
-      if (audio) {
-        audio.removeEventListener('ended', () => {});
-        audio.pause();
-        audio.currentTime = 0;
-      }
-    };
-  }, [onComplete]);
-
-  const musicalSymbols = ['♪', '♫', '♬', '♩', '♭', '♮', '❤️', '💕', '🥰', '💫', '✨', '🎵', '🎶', '🌟', '⭐', '🎊', '🎉'];
 
   return (
     <motion.div
@@ -76,34 +78,35 @@ const CandleIntro = ({ onComplete }) => {
       <audio ref={audioRef} src={fluteMusic} />
       <MagicalCursor />
 
-      {/* Floating Symbols Animation - Only show after music starts */}
-      {isPlaying && musicalSymbols.map((symbol, index) => (
-        <motion.div
-          key={index}
-          className="absolute text-2xl"
-          initial={{
-            x: Math.random() * window.innerWidth,
-            y: window.innerHeight + 100
-          }}
-          animate={{
-            y: [-100, window.innerHeight + 100],
-            x: [null, Math.random() * window.innerWidth],
-            rotate: [0, 360],
-            scale: [1, 1.5, 1]
-          }}
-          transition={{
-            duration: Math.random() * 5 + 5,
-            repeat: Infinity,
-            delay: index * 0.3,
-            ease: "linear"
-          }}
-        >
-          {symbol}
-        </motion.div>
-      ))}
+      {isPlaying && (
+        funMessages.map((_, index) => (
+          <motion.div
+            key={index}
+            className="absolute text-1xl text-white"
+            initial={{
+              x: Math.random() * window.innerWidth,
+              y: window.innerHeight + 100
+            }}
+            animate={{
+              y: [-100, window.innerHeight + 100],
+              x: [null, Math.random() * window.innerWidth],
+              rotate: [0, 360],
+              scale: [1, 1.5, 1]
+            }}
+            transition={{
+              duration: Math.random() * 5 + 5,
+              repeat: Infinity,
+              delay: index * 0.3,
+              ease: "linear"
+            }}
+          >
+            {['♪', '♫', '♬', '♩', '♭', '♮', '❤️', '💕', '🥰', '💫', '✨', '🎵', '🎶', '🌟', '⭐', '🎊', '🎉'][index % 17]}
+          </motion.div>
+        ))
+      )}
 
       <div className="text-center max-w-2xl mx-auto px-4">
-        {/* Candle Video */}
+        {/* Candle */}
         <motion.div
           className="relative w-72 mx-auto mb-8"
           animate={{
@@ -127,7 +130,6 @@ const CandleIntro = ({ onComplete }) => {
           </video>
         </motion.div>
 
-        {/* Fun Messages */}
         <motion.p
           className="text-white text-lg mb-6 h-16 flex items-center justify-center"
           key={currentMessage}
@@ -139,10 +141,10 @@ const CandleIntro = ({ onComplete }) => {
           {funMessages[currentMessage]}
         </motion.p>
 
-        {/* Magic Button - Only show after music starts */}
-        {isPlaying && (
+        {/* Break the Magic Button */}
+        {isPlaying && !hasBroken && (
           <motion.button
-            onClick={() => setIsLit(false)}
+            onClick={handleBreakMagic}
             className="px-8 py-4 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 rounded-full text-white font-bold shadow-lg text-lg"
             whileHover={{ 
               scale: 1.1,

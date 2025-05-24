@@ -145,19 +145,24 @@ const App = () => {
       Icon: Camera,
       gradient: 'from-sky-500 via-blue-600 to-indigo-700',
       content: (
-        <div className="grid grid-cols-2 gap-4 pt-2">
+        <>
+        <div className="grid grid-cols-4 gap-4 pt-2">
           {[
             fav,
             image14,
             image20,
             pencil,
-            
           ].map((src, idx) => (
             <motion.div key={idx} whileHover={{ scale: 1.05 }} transition={{ type: 'spring', stiffness: 300 }}>
               <img alt={`Memory ${idx}`} className="w-full h-42 object-cover rounded-lg shadow-md" src={src} />
             </motion.div>
           ))}
+          
         </div>
+        <div className='d-flex w-full '>
+            <i>"Hey, I just wanted to say something honestly... I really hope you'll always stay close. I've come to rely on you more than you probably realize, and I truly appreciate having you around. I'd love for us to keep making memories — countless ones — and share many more moments with you, just like we always do with your permission."</i>
+          </div>
+        </>
       )
     },
     {
@@ -171,7 +176,7 @@ const App = () => {
           <p>"Keep shining, keep dreaming, and keep being the incredible person you are."</p>
           <p>"Sending you all love on your special day and always!"</p>
           <p>once again,Happy Birthday! No matter what happened in the past, I want you to know you’ve always held a special place in my heart.</p>
-          <section><i>Thank You for making me a wonderful Memories ❤️!</i></section>
+          <section><i>Thank You so much for make a wonderful Captures in my life ❤️!</i></section>
         </div>
       )
     }
