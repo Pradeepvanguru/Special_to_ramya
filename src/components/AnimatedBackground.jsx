@@ -1,6 +1,8 @@
 import React from 'react';
     import { motion } from 'framer-motion';
     import { Star, Zap, Sparkles as LucideSparkles, Gift, Heart, Smile, Meh, Angry } from 'lucide-react';
+    import bgImage from '../asserts/my_pallavi.jpg'; // Adjust the path accordingly
+
 
 
     const AnimatedBackground = () => {
@@ -33,7 +35,7 @@ import React from 'react';
       return (
         <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0" 
           style={{
-            backgroundImage: 'url("/src/asserts/my_pallavi.jpg")',
+            backgroundImage: `url(${bgImage})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',

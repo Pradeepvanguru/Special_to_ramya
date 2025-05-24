@@ -7,13 +7,34 @@ import fluteMusic from '../asserts/flute.mp3';
 const CandleIntro = ({ onComplete }) => {
   const [isLit, setIsLit] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [currentMessage, setCurrentMessage] = useState(0);
   const audioRef = useRef(null);
+
+  const funMessages = [
+    "Click anywhere to start the magical journey! ✨",
+    "What did the candle say to the cake? You're looking sweet! 🕯️",
+    "Roses are red, violets are blue, this birthday surprise is just for you! 🌹",
+    "Warning: Excessive cuteness ahead! 🥰",
+    "Loading happiness... Please wait! ⌛",
+    "Preparing something special just for you... ✨",
+    "Did you know? Birthdays are good for your health! Studies show people who have more birthdays live longer! 😄"
+  ];
+
+  useEffect(() => {
+    // Only rotate messages after user starts playing
+    if (isPlaying) {
+      const messageInterval = setInterval(() => {
+        setCurrentMessage(prev => (prev + 1) % funMessages.length);
+      }, 3000);
+      return () => clearInterval(messageInterval);
+    }
+  }, [isPlaying]);
 
   const startAudio = async () => {
     try {
-      if (audioRef.current) {
+      if (audioRef.current && !isPlaying) {
         audioRef.current.volume = 0.1;
-        audioRef.current.loop = false; // Play only once
+        audioRef.current.loop = false;
         await audioRef.current.play();
         setIsPlaying(true);
       }
@@ -30,7 +51,7 @@ const CandleIntro = ({ onComplete }) => {
         setIsLit(false);
         setTimeout(() => {
           onComplete();
-        }, 1500); // Fade out transition before redirecting
+        }, 2000);
       });
     }
 
@@ -43,77 +64,98 @@ const CandleIntro = ({ onComplete }) => {
     };
   }, [onComplete]);
 
-  const handleBreakFire = () => {
-    if (audioRef.current && !isPlaying) {
-      startAudio();
-    }
-  };
-
-  const musicalSymbols = ['♪', '♫', '♬', '♩', '♭', '♮','❤️','💕','🥰','💫','✨'];
+  const musicalSymbols = ['♪', '♫', '♬', '♩', '♭', '♮', '❤️', '💕', '🥰', '💫', '✨', '🎵', '🎶', '🌟', '⭐', '🎊', '🎉'];
 
   return (
     <motion.div
-      className="fixed inset-0 bg-black flex items-center justify-center z-50"
+      className="fixed inset-0 bg-black flex items-center justify-center z-50 cursor-pointer"
       animate={{ opacity: isLit ? 1 : 0 }}
-      transition={{ duration: 1.5 }}
-      onClick={!isPlaying ? startAudio : undefined}
+      transition={{ duration: 2 }}
+      onClick={startAudio}
     >
       <audio ref={audioRef} src={fluteMusic} />
       <MagicalCursor />
+
+      {/* Floating Symbols Animation - Only show after music starts */}
       {isPlaying && musicalSymbols.map((symbol, index) => (
         <motion.div
           key={index}
-          className="absolute text-white text-1sm"
+          className="absolute text-2xl"
           initial={{
             x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight,
-            opacity: 0
+            y: window.innerHeight + 100
           }}
           animate={{
-            y: [null, -100],
-            opacity: [0, 1, 0],
+            y: [-100, window.innerHeight + 100],
+            x: [null, Math.random() * window.innerWidth],
+            rotate: [0, 360],
             scale: [1, 1.5, 1]
           }}
           transition={{
-            duration: 3,
+            duration: Math.random() * 5 + 5,
             repeat: Infinity,
-            delay: index * 0.5,
-            ease: "easeInOut"
+            delay: index * 0.3,
+            ease: "linear"
           }}
         >
           {symbol}
         </motion.div>
       ))}
-      <div className="text-center">
+
+      <div className="text-center max-w-2xl mx-auto px-4">
+        {/* Candle Video */}
         <motion.div
-          className="relative w-64 mx-auto mb-8"
+          className="relative w-72 mx-auto mb-8"
           animate={{
-            scale: isLit ? 1 : 0.8,
-            opacity: isLit ? 1 : 0
+            scale: [1, 1.05, 1],
+            rotate: [0, 1, -1, 0]
           }}
-          transition={{ duration: 0.5 }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
         >
           <video
             autoPlay
             loop
             muted
-            className="w-full rounded-lg"
+            className="w-full rounded-lg shadow-2xl"
             style={{ display: isLit ? 'block' : 'none' }}
           >
             <source src={candleVideo} type="video/mp4" />
           </video>
         </motion.div>
 
-        <motion.button
-          onClick={handleBreakFire}
-          className="px-6 py-3 bg-gradient-to-r from-orange-500 to-red-600 rounded-full text-white font-bold shadow-lg"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+        {/* Fun Messages */}
+        <motion.p
+          className="text-white text-lg mb-6 h-16 flex items-center justify-center"
+          key={currentMessage}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.5 }}
         >
-          {isPlaying ? "Enjoy the Music ✨" : "Start the Magic ✨"}
-        </motion.button>
-        {!isPlaying && (
-          <p className="text-white mt-4 opacity-70">Click to start the magical journey</p>
+          {funMessages[currentMessage]}
+        </motion.p>
+
+        {/* Magic Button - Only show after music starts */}
+        {isPlaying && (
+          <motion.button
+            onClick={() => setIsLit(false)}
+            className="px-8 py-4 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 rounded-full text-white font-bold shadow-lg text-lg"
+            whileHover={{ 
+              scale: 1.1,
+              boxShadow: '0 0 20px rgba(255,255,255,0.5)'
+            }}
+            whileTap={{ scale: 0.95 }}
+            animate={{
+              boxShadow: ['0 0 10px rgba(255,255,255,0.2)', '0 0 20px rgba(255,255,255,0.5)', '0 0 10px rgba(255,255,255,0.2)']
+            }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
+            Break the Magic ✨
+          </motion.button>
         )}
       </div>
     </motion.div>

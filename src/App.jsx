@@ -50,7 +50,7 @@ const App = () => {
       gradient: 'from-purple-600 via-pink-600 to-red-600',
       content: (
         <>
-          <p className="text-lg sm:text-xl mb-6 text-center text-gray-200">Wishing you the most amazing day, filled with love, laughter, and everything that makes you happy!</p>
+          <p className="text-lg sm:text-xl mb-6 text-center text-gray-200">Wishing you the most amazing day, filled with love, laughter, and everything that makes you happy ✨!</p>
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -141,7 +141,7 @@ const App = () => {
     },
     {
       id: 'gallery',
-      title: 'One of my Golden Moments with You 📸 ✨ ',
+      title: 'One of my Golden Moments with You  ✨ ',
       Icon: Camera,
       gradient: 'from-sky-500 via-blue-600 to-indigo-700',
       content: (
@@ -208,26 +208,34 @@ const App = () => {
 
           <div
             ref={scrollContainerRef}
-            className="flex overflow-x-auto hide-scrollbar gap-6 pb-4 max-w-6xl mx-auto"
-            style={{ scrollSnapType: 'x mandatory' }}>
-            // Inside your App component's return statement, update the sections.map:
+            className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-8"
+          >
             {sections.map(({ id, title, Icon, gradient, content }) => (
-            // Inside your sections.map
-            <div 
-              key={id}
-              className="flex-none w-full max-w-xs sm:max-w-[280px] mx-auto"
-              style={{ scrollSnapAlign: 'start' }}>
-              <Card className="bg-white/[0.01] backdrop-blur-[1px] border border-white/5 shadow-xl hover:shadow-2xl transition-all duration-300 hover:bg-white/[0.05] p-4">
-                <CardHeader className="p-3">
-                  <CardTitle className={`text-xl font-bold text-center bg-gradient-to-r ${gradient} bg-clip-text text-transparent`}>
-                    {title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-3 text-sm">
-                  {content}
-                </CardContent>
-              </Card>
-            </div>
+              <div
+                key={id}
+                className="flex-shrink-0 w-full snap-center px-2 sm:px-4"
+                style={{ minWidth: '100%' }}
+              >
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  viewport={{ once: true }}
+                  className="max-w-md mx-auto"
+                >
+                  <Card className={`bg-white/[0.02] backdrop-blur-[2px] border-white/5 transition-all duration-300 hover:bg-white/[0.05] overflow-hidden`}>
+                    <CardHeader>
+                      <CardTitle className="flex items-center justify-center gap-2 text-2xl">
+                        <Icon className={`w-6 h-6 bg-gradient-to-r ${gradient} rounded-full p-1`} />
+                        <span className={`bg-gradient-to-r ${gradient} inline-block text-transparent bg-clip-text`}>
+                          {title}
+                        </span>
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>{content}</CardContent>
+                  </Card>
+                </motion.div>
+              </div>
             ))}
           </div>
         </div>
