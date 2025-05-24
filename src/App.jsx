@@ -7,7 +7,7 @@ import AnimatedBackground from '@/components/AnimatedBackground';
 import MagicalCursor from '@/components/MagicalCursor';
 // Update the import statements at the top of the file
 import friend from './asserts/friends.png'
-import ramya from './asserts/Ramya.png'
+import ramya from './asserts/ramya_05.jpg'
 import pic1 from './asserts/pic1.png'
 import fav from './asserts/fav.jpg'
 import image14 from './asserts/image14.jpg'
@@ -59,7 +59,7 @@ const App = () => {
           >
             <img
               alt="Joyful birthday celebration with confetti"
-              className="w-full max-w-xs mx-auto rounded-xl shadow-2xl object-cover h-64"
+              className="w-full max-w-xl mx-auto rounded-xl shadow-2xl object-cover h-100"
               src={ramya}
             />
             <motion.div
