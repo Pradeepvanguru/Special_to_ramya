@@ -1,0 +1,101 @@
+@tailwind base;
+    @tailwind components;
+    @tailwind utilities;
+
+    @layer base {
+      :root {
+        --background: 224 76% 3%; /* Dark Blue/Purple */
+        --foreground: 210 40% 98%; /* Light Gray/White */
+
+        --card: 224 70% 8%; /* Darker card background */
+        --card-foreground: 210 40% 95%; /* Lighter text for cards */
+     
+        --popover: 224 70% 8%;
+        --popover-foreground: 210 40% 95%;
+     
+        --primary: 300 80% 60%; /* Vibrant Pink/Purple */
+        --primary-foreground: 355.7 100% 97.3%;
+     
+        --secondary: 240 50% 20%; /* Darker secondary */
+        --secondary-foreground: 210 40% 98%;
+     
+        --muted: 240 40% 15%; /* Even darker muted */
+        --muted-foreground: 215 20.2% 65.1%;
+     
+        --accent: 280 70% 50%; /* Vibrant Purple Accent */
+        --accent-foreground: 210 40% 98%;
+     
+        --destructive: 0 70% 50%; /* Brighter Red for dark theme */
+        --destructive-foreground: 0 0% 98%;
+
+        --border: 240 40% 25%; /* Darker border */
+        --input: 240 40% 25%; /* Darker input */
+        --ring: 300 80% 70%; /* Lighter Pink/Purple for focus rings */
+     
+        --radius: 0.75rem; 
+      }
+     
+      /* .dark class can be removed if dark is default, or kept for toggling */
+      .dark {
+        --background: 224 76% 3%;
+        --foreground: 210 40% 98%;
+     
+        --card: 224 70% 8%;
+        --card-foreground: 210 40% 95%;
+     
+        --popover: 224 70% 8%;
+        --popover-foreground: 210 40% 95%;
+     
+        --primary: 300 80% 60%;
+        --primary-foreground: 355.7 100% 97.3%;
+     
+        --secondary: 240 50% 20%;
+        --secondary-foreground: 210 40% 98%;
+     
+        --muted: 240 40% 15%;
+        --muted-foreground: 215 20.2% 65.1%;
+     
+        --accent: 280 70% 50%;
+        --accent-foreground: 210 40% 98%;
+     
+        --destructive: 0 70% 50%;
+        --destructive-foreground: 0 0% 98%;
+     
+        --border: 240 40% 25%;
+        --input: 240 40% 25%;
+        --ring: 300 80% 70%;
+      }
+    }
+     
+    @layer base {
+      * {
+        @apply border-border;
+      }
+      body {
+        @apply bg-background text-foreground;
+        font-family: 'Poppins', sans-serif; 
+        cursor: none; 
+      }
+      
+      button, a, input[type="button"], [role="button"], .cursor-pointer {
+        cursor: none; 
+      }
+      .hide-scrollbar {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+      }
+      
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none;  /* Chrome, Safari and Opera */
+      }
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Dancing+Script:wght@700&display=swap');
+
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    h1, h2, h3, .card-title { 
+      font-family: 'Dancing Script', cursive;
+    }
