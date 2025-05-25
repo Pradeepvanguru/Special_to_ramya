@@ -13,9 +13,9 @@ import React from 'react';
         { id: 'star4', Icon: Star, color: 'text-indigo-300', size: 'w-3 h-3', duration: 20, delay: 5 },
         { id: 'star5', Icon: Star, color: 'text-pink-400', size: 'w-4 h-4', duration: 14, delay: 7 },
         
-        { id: 'zap1', Icon: Zap, color: 'text-cyan-300', size: 'w-4 h-4', duration: 15, delay: 0.5 },
-        { id: 'zap2', Icon: Zap, color: 'text-purple-400', size: 'w-5 h-5', duration: 12, delay: 4 },
-        { id: 'zap3', Icon: Zap, color: 'text-yellow-300', size: 'w-3 h-3', duration: 19, delay: 8 },
+        // { id: 'zap1', Icon: Zap, color: 'text-cyan-300', size: 'w-4 h-4', duration: 15, delay: 0.5 },
+        // { id: 'zap2', Icon: Zap, color: 'text-purple-400', size: 'w-5 h-5', duration: 12, delay: 4 },
+        // { id: 'zap3', Icon: Zap, color: 'text-yellow-300', size: 'w-3 h-3', duration: 19, delay: 8 },
 
         { id: 'sparkle1', Icon: LucideSparkles, color: 'text-pink-400', size: 'w-3 h-3', duration: 13, delay: 2.5 },
         { id: 'sparkle2', Icon: LucideSparkles, color: 'text-teal-300', size: 'w-2 h-2', duration: 19, delay: 6.5 },
@@ -27,7 +27,7 @@ import React from 'react';
         { id: 'emojiAngry1', Icon: () => <Angry className="text-orange-500 w-5 h-5" />, duration: 22, delay: 7.2 },
         
         { id: 'emojiParty1', Icon: () => <span className="text-2xl">🥳</span>, duration: 17, delay: 0.8 },
-        { id: 'emojiCake1', Icon: () => <span className="text-xl">🎂</span>, duration: 21, delay: 4.5 },
+        { id: 'emojiCake1', Icon: () => <span className="text-xl">💕</span>, duration: 21, delay: 4.5 },
         { id: 'emojiLove2', Icon: () => <span className="text-xl">💖</span>, duration: 19, delay: 6 },
         { id: 'emojiGift2', Icon: () => <Gift className="text-green-400 w-6 h-6" />, duration: 14, delay: 8.5 },
       ];

@@ -4,64 +4,45 @@
 
 @layer base {
   :root {
-    /* Light or default theme values (can be removed if using dark by default) */
     --background: 224 76% 3%;
     --foreground: 210 40% 98%;
-
     --card: 224 70% 8%;
     --card-foreground: 210 40% 95%;
-
     --popover: 224 70% 8%;
     --popover-foreground: 210 40% 95%;
-
     --primary: 300 80% 60%;
     --primary-foreground: 355.7 100% 97.3%;
-
     --secondary: 240 50% 20%;
     --secondary-foreground: 210 40% 98%;
-
     --muted: 240 40% 15%;
     --muted-foreground: 215 20.2% 65.1%;
-
     --accent: 280 70% 50%;
     --accent-foreground: 210 40% 98%;
-
     --destructive: 0 70% 50%;
     --destructive-foreground: 0 0% 98%;
-
     --border: 240 40% 25%;
     --input: 240 40% 25%;
     --ring: 300 80% 70%;
-
     --radius: 0.75rem;
   }
 
   .dark {
-    /* Dark theme overrides (same as :root if using dark mode only) */
     --background: 224 76% 3%;
     --foreground: 210 40% 98%;
-
     --card: 224 70% 8%;
     --card-foreground: 210 40% 95%;
-
     --popover: 224 70% 8%;
     --popover-foreground: 210 40% 95%;
-
     --primary: 300 80% 60%;
     --primary-foreground: 355.7 100% 97.3%;
-
     --secondary: 240 50% 20%;
     --secondary-foreground: 210 40% 98%;
-
     --muted: 240 40% 15%;
     --muted-foreground: 215 20.2% 65.1%;
-
     --accent: 280 70% 50%;
     --accent-foreground: 210 40% 98%;
-
     --destructive: 0 70% 50%;
     --destructive-foreground: 0 0% 98%;
-
     --border: 240 40% 25%;
     --input: 240 40% 25%;
     --ring: 300 80% 70%;
@@ -75,25 +56,40 @@
     @apply bg-background text-foreground;
     font-family: 'Poppins', sans-serif;
     cursor: none;
+    overflow-x: hidden; /* prevent horizontal scroll */
   }
 
-  /* button, a, input[type="button"], [role="button"], .cursor-pointer {
+  button,
+  a,
+  input[type='button'],
+  [role='button'],
+  .cursor-pointer {
     cursor: none;
-  } */
+  }
 
   .hide-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+    overflow: auto;
   }
 
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
   }
 
-  h1, h2, h3, .card-title {
+  .horizontal-scroll {
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  h1,
+  h2,
+  h3,
+  .card-title {
     font-family: 'Dancing Script', cursive;
   }
 }
 
-/* Fonts Import */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Dancing+Script:wght@700&display=swap');

@@ -13,8 +13,8 @@ const CandleIntro = ({ onComplete }) => {
 
   const funMessages = [
     "Click anywhere to start the magical journey! ✨",
-    "What did the candle say to the cake? You're looking sweet! 🕯️",
-    "Roses are red, violets are blue, this birthday surprise is just for you! 🌹",
+    "What did the candle say to the cake? You're looking sweet!",
+    "Roses are red, violets are blue, this birthday surprise is just for you!",
     "Warning: Excessive cuteness ahead! 🥰",
     "Loading happiness... Please wait! ⌛",
     "Preparing something special just for you... ✨",
@@ -111,7 +111,7 @@ const CandleIntro = ({ onComplete }) => {
           className="relative w-72 mx-auto mb-8"
           animate={{
             scale: [1, 1.05, 1],
-            rotate: [0, 1, -1, 0]
+            rotate: [0, 1, 0]
           }}
           transition={{
             duration: 4,
