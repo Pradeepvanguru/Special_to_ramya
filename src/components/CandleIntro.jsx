@@ -44,7 +44,7 @@ const CandleIntro = ({ onComplete }) => {
         if (!hasBroken) {
           handleBreakMagic();
         }
-      }, 15000); // 10 seconds
+      }, 10000); // 10 seconds
     }
   } catch (error) {
     console.error('Audio playback failed:', error);

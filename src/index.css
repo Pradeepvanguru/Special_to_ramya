@@ -77,9 +77,9 @@
     cursor: none;
   }
 
-  button, a, input[type="button"], [role="button"], .cursor-pointer {
+  /* button, a, input[type="button"], [role="button"], .cursor-pointer {
     cursor: none;
-  }
+  } */
 
   .hide-scrollbar {
     -ms-overflow-style: none;

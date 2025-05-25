@@ -80,7 +80,7 @@ const App = () => {
       gradient: 'from-indigo-500 via-purple-600 to-pink-600',
       content: (
         <div className="space-y-4 text-center text-gray-300">
-          <p className="flex items-center justify-center"><Heart className="w-5 h-5 mr-2 text-red-400" /> An independent spirit, brave and inspiring.</p>
+          <p className="flex items-center justify-center"><Heart className="w-5 h-5 mr-2 text-red-400" /> An independent spirit, brave, inspiring and fire brand🔥.</p>
           <p className="flex items-center justify-center"><Eye className="w-5 h-5 mr-2 text-sky-400" /> Those attractive eyes that light up any room!</p>
           <p className="flex items-center justify-center"><Mic className="w-5 h-5 mr-2 text-teal-300" /> A talented dancer and a captivating singer.</p>
           <p className="flex items-center justify-center"><Stethoscope className="w-5 h-5 mr-2 text-green-400" /> Future amazing Dentist in the making!</p>
@@ -160,8 +160,9 @@ const App = () => {
           
         </div>
         <div className='d-flex w-full '>
-            <i>"Hey, I just wanted to say something honestly... I really hope you'll always stay close. I've come to rely on you more than you probably realize, and I truly appreciate having you around. I'd love for us to keep making memories — countless ones — and share many more moments with you, just like we always do with your permission."</i>
-          </div>
+            <i>"Hey, I just wanted to say something honestly... I really hope you'll always stay close. I'd love for us to keep making memories — countless ones — and share many more moments with you, just like we always do with your permission."</i>
+            <br></br><i>"These moments are enough for me. I know you're in love with someone, and I am really happy for you. I understand you have some limitations with other people like me, that's why I'm not disturbing you. I always want to see you happy."</i>
+        </div>
         </>
       )
     },
@@ -175,12 +176,21 @@ const App = () => {
           <p>"May your birthday be as bright as your smile and as lovely as you are."</p>
           <p>"Keep shining, keep dreaming, and keep being the incredible person you are."</p>
           <p>"Sending you all love on your special day and always!"</p>
-          <p>once again,Happy Birthday! No matter what happened in the past, I want you to know you’ve always held a special place in my heart.</p>
+          <p>once again,Happy Birthday! No matter what happened in the past, I want you to know you’ve always held a special place to me.</p>
           <section><i>Thank You so much for make a wonderful Captures in my life ❤️!</i></section>
         </div>
       )
     }
   ];
+
+  const [currentCardIndex, setCurrentCardIndex] = useState(0);
+
+  const handleNextCard = () => {
+    if (currentCardIndex < sections.length - 1) {
+      setCurrentCardIndex(prev => prev + 1);
+      scroll('right');
+    }
+  };
 
   return (
     <>
@@ -198,27 +208,14 @@ const App = () => {
         <AnimatedBackground />
         <MagicalCursor />
         <div className="relative z-10 py-8 px-4">
-          <div className="flex items-center justify-between max-w-6xl mx-auto mb-4">
-            <button
-              onClick={() => scroll('left')}
-              className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
-              <ChevronLeft className="w-6 h-6" />
-            </button>
-            <button
-              onClick={() => scroll('right')}
-              className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors">
-              <ChevronRight className="w-6 h-6" />
-            </button>
-          </div>
-
           <div
             ref={scrollContainerRef}
             className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-8"
           >
-            {sections.map(({ id, title, Icon, gradient, content }) => (
+            {sections.map(({ id, title, Icon, gradient, content }, index) => (
               <div
                 key={id}
-                className="flex-shrink-0 w-full snap-center px-2 sm:px-4"
+                className="flex-shrink-0 w-full snap-center px-2 sm:px-4 relative"
                 style={{ minWidth: '100%' }}
               >
                 <motion.div
@@ -237,7 +234,19 @@ const App = () => {
                         </span>
                       </CardTitle>
                     </CardHeader>
-                    <CardContent>{content}</CardContent>
+                    <CardContent>
+                      {content}
+                      {index !== sections.length - 1 && (
+                        <div className="flex justify-center mt-4">
+                          <button
+                            onClick={handleNextCard}
+                            className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center gap-2"
+                          >
+                            Next <ChevronRight className="w-4 h-4" />
+                          </button>
+                        </div>
+                      )}
+                    </CardContent>
                   </Card>
                 </motion.div>
               </div>
