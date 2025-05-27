@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import MagicalCursor from '@/components/MagicalCursor';
 import CandleIntro from './components/CandleIntro';
+import { ChevronRight } from "lucide-react";
 
 import friend from './asserts/friends.png';
 import ramya from './asserts/ramya_05.jpg';
@@ -15,7 +16,6 @@ import image14 from './asserts/image14.jpg';
 import image20 from './asserts/image20.jpg';
 import pencil from './asserts/pencil.jpg';
 import bgMusic from './asserts/Audio_bgm.mp3';
-import { ChevronRight } from "lucide-react";
 
 const App = () => {
   const [showApp, setShowApp] = useState(false);
@@ -42,14 +42,6 @@ const App = () => {
     }
   };
 
-  const handleNextCard = () => {
-    if (currentCardIndex < sections.length - 1) {
-      setCurrentCardIndex(prev => prev + 1);
-      scroll('right');
-    }
-  };
-
-  // 🔁 Auto-scroll logic
   useEffect(() => {
     if (showApp && currentCardIndex < sections.length - 1) {
       const timer = setInterval(() => {
@@ -62,7 +54,7 @@ const App = () => {
             return prevIndex;
           }
         });
-      }, 20000); // 20 seconds
+      }, 10000);
 
       return () => clearInterval(timer);
     }
@@ -72,11 +64,15 @@ const App = () => {
     // hero section
     {
       id: 'hero',
-      title: `Happy Birthday, ${girlName}`,
+      title: `Happy Birthday ${girlName}`,
       Icon: Cake,
       gradient: 'from-purple-600 via-pink-600 to-red-600',
       content: (
         <>
+        <div className="fixed bottom-4 right-4 animate-pulse text-white text-3xl z-50">
+          →
+        </div>
+ 
           <p className="text-lg sm:text-xl mb-6 text-center text-gray-200">
             Wishing you the most amazing day, filled with love, laughter, and everything that makes you happy ✨
           </p>
@@ -88,7 +84,7 @@ const App = () => {
           >
             <img
               alt="Joyful birthday celebration"
-              className="w-full max-w-xl mx-auto rounded-xl shadow-2xl object-cover h-100"
+              className="w-full max-w-xl mx-auto rounded-xl shadow-2xl object-cover h-100  opacity-80"
               src={ramya}
             />
             <motion.div
@@ -110,6 +106,9 @@ const App = () => {
       gradient: 'from-indigo-500 via-purple-600 to-pink-600',
       content: (
         <div className="space-y-4 text-center text-gray-300">
+        <div className="fixed bottom-4 right-4 animate-pulse text-white text-3xl z-50">
+          →
+        </div>
           <p className="flex items-center justify-center"><Heart className="w-5 h-5 mr-2 text-red-400" /> An independent spirit, brave, inspiring and fire brand🔥.</p>
           <p className="flex items-center justify-center"><Eye className="w-5 h-5 mr-2 text-sky-400" /> Those attractive eyes that light up any room!</p>
           <p className="flex items-center justify-center"><Mic className="w-5 h-5 mr-2 text-teal-300" /> A talented dancer and a captivating singer.</p>
@@ -122,7 +121,7 @@ const App = () => {
           >
             <img
               alt="Portrait"
-              className="w-full max-w-[180px] mx-auto rounded-lg shadow-lg object-cover h-48"
+              className="w-full max-w-[220px] mx-auto rounded-lg shadow-lg object-cover h-100"
               src={pic1}
             />
           </motion.div>
@@ -137,6 +136,9 @@ const App = () => {
       gradient: 'from-orange-500 via-red-600 to-pink-700',
       content: (
         <div className="text-center space-y-3 text-gray-300">
+        <div className="fixed bottom-4 right-4 animate-pulse text-white text-3xl z-50">
+          →
+        </div>
           <p>Blessed with wonderful friends like Divya and Amrutha!</p>
           <p>Their bond is full of support, joy, and understanding.</p>
           <p>You enjoy with friends Especially loves delicious Biryani party!</p>
@@ -154,12 +156,15 @@ const App = () => {
     // special moments section
     {
       id: 'gallery',
-      title: 'One of my Golden Moments with You ✨',
+      title: ' Best Moments with You ✨',
       Icon: Camera,
       gradient: 'from-sky-500 via-blue-600 to-indigo-700',
       content: (
         <>
           <div className="grid grid-cols-4 gap-4 pt-2">
+          <div className="fixed bottom-4 right-4 animate-pulse text-white text-3xl z-50">
+          →
+        </div>
             {[fav, image14, image20, pencil].map((src, idx) => (
               <motion.div key={idx} whileHover={{ scale: 1.05 }} transition={{ type: 'spring', stiffness: 300 }}>
                 <img alt={`Memory ${idx}`} className="w-full h-42 object-cover rounded-lg shadow-md" src={src} />
@@ -188,11 +193,21 @@ const App = () => {
           <p> Sorry for taking the picture without your permission, I do apologize and will delete the pics after this. </p>
           <p>I plan a lot of things,but in the end,life follows the script written by destiny.</p>
           <section><i>Thank you for making beautiful Captures in my life,I never forgot it..!</i></section>
-
+           {/* Exit Button */}
+      <div className="flex justify-center mt-8">
+        <button
+         onClick={() => window.history.back()}
+          className="px-7 py-2 border border-blue-500 text-white-500 rounded-lg hover:bg-red-500 hover:text-white transition-all"
+        >
+          Exit
+        </button>
+      </div>
         </div>
       )
     }
   ];
+
+  // //onClick={() => scroll('right')}
 
   return (
       <>
@@ -210,7 +225,6 @@ const App = () => {
           <AnimatedBackground />
           <MagicalCursor />
 
-          {/* Add the blinking arrow */}
           <motion.div 
             className="absolute top-4 right-4 z-20"
             animate={{ 
@@ -222,42 +236,46 @@ const App = () => {
               repeat: Infinity,
               ease: "easeInOut"
             }}
+            style={{ display: currentCardIndex === sections.length - 1 ? 'none' : 'block' }}
           >
-            <ChevronRight className="w-8 h-8 text-white/70" />
+            <ChevronRight className="w-8 h-8 text-white/70 cursor-pointer"  /> 
+            {/* <div className="fixed bottom-4 right-4 animate-pulse text-white text-3xl z-50">
+          →
+        </div> */}
           </motion.div>
 
           <div className="relative z-10 py-8 px-4">
             <div
               ref={scrollContainerRef}
-              className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-8"
+              className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-8 scroll-smooth"
+              style={{ scrollSnapType: 'x mandatory' }}
             >
-             {sections.map((section, index) => {
-                  const Icon = section.Icon;       // Get Icon component
-                  const gradient = section.gradient; // Get gradient string
+              {sections.map((section, index) => {
+                const Icon = section.Icon;
+                const gradient = section.gradient;
 
-                  return (
-                    <motion.div
-                      key={section.id}
-                      className="min-w-full snap-center px-4"
-                      initial={{ opacity: 0, y: 30 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.3, duration: 0.5 }}
-                    >
-                      <Card className="bg-white/[0.01] backdrop-blur-[1px] border border-white/5 transition-all duration-300 hover:bg-white/[0.05] overflow-hidden">
-                        <CardHeader>
-                          <CardTitle className="flex items-center justify-center gap-2 text-2xl">
-                            <Icon className={`w-6 h-6 bg-gradient-to-r ${gradient} rounded-full p-1`} />
-                            <span className={`bg-gradient-to-r ${gradient} inline-block text-transparent bg-clip-text`}>
-                              {section.title}
-                            </span>
-                          </CardTitle>
-                        </CardHeader>
-                        <CardContent>{section.content}</CardContent>
-                      </Card>
-                    </motion.div>
-                  );
-                })}
-
+                return (
+                  <motion.div
+                    key={section.id}
+                    className="min-w-full snap-center px-4"
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3, duration: 0.5 }}
+                  >
+                    <Card className="bg-white/[0.01] backdrop-blur-[1px] border border-white/5 transition-all duration-300 hover:bg-white/[0.05] overflow-hidden">
+                      <CardHeader>
+                        <CardTitle className="flex items-center justify-center gap-1 text-2xl">
+                          <Icon className={`w-6 h-6 bg-gradient-to-r ${gradient} rounded-full p-1`} />
+                          <span className={`bg-gradient-to-r ${gradient} inline-block text-transparent bg-clip-text`}>
+                            {section.title}
+                          </span>
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>{section.content}</CardContent>
+                    </Card>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </motion.div>
