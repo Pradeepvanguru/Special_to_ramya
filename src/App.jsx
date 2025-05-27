@@ -34,12 +34,17 @@ const App = () => {
 
   const scroll = (direction) => {
     if (scrollContainerRef.current) {
-      const scrollAmount = 300;
+      const cardWidth = scrollContainerRef.current.offsetWidth;
       scrollContainerRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        left: direction === 'left' ? -cardWidth : cardWidth,
         behavior: 'smooth'
       });
     }
+  };
+
+  // Add click handler for the arrow
+  const handleArrowClick = () => {
+    handleNextCard();
   };
 
   const handleNextCard = () => {
@@ -209,9 +214,9 @@ const App = () => {
           <AnimatedBackground />
           <MagicalCursor />
 
-          {/* Add the blinking arrow */}
+          {/* Add the blinking arrow with click handler */}
           <motion.div 
-            className="absolute top-4 right-4 z-20"
+            className="absolute top-4 right-4 z-20 cursor-pointer"
             animate={{ 
               x: [0, 10, 0],
               opacity: [1, 0.5, 1]
@@ -221,7 +226,8 @@ const App = () => {
               repeat: Infinity,
               ease: "easeInOut"
             }}
-            style={{ display: currentCardIndex === 4 ? 'none' : 'block' }}
+            onClick={handleArrowClick}
+            style={{ display: currentCardIndex === sections.length - 1 ? 'none' : 'block' }}
           >
             <ChevronRight className="w-8 h-8 text-white/70" />
           </motion.div>
@@ -229,7 +235,8 @@ const App = () => {
           <div className="relative z-10 py-8 px-4">
             <div
               ref={scrollContainerRef}
-              className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-8"
+              className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-8 scroll-smooth"
+              style={{ scrollSnapType: 'x mandatory' }}
             >
              {sections.map((section, index) => {
                   const Icon = section.Icon;       // Get Icon component
@@ -246,7 +253,7 @@ const App = () => {
                       <Card className="bg-white/[0.01] backdrop-blur-[1px] border border-white/5 transition-all duration-300 hover:bg-white/[0.05] overflow-hidden relative">
                         <CardHeader>
                           <CardTitle className="flex items-center justify-center gap-1 text-2xl">
-                            <Icon className={`w-7 h-6 bg-gradient-to-r ${gradient} rounded-full p-1`} />
+                            <Icon className={`w-6 h-6 bg-gradient-to-r ${gradient} rounded-full p-1`} />
                             <span className={`bg-gradient-to-r ${gradient} inline-block text-transparent bg-clip-text`}>
                               {section.title}
                             </span>
