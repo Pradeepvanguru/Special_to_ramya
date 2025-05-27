@@ -24,25 +24,6 @@ const App = () => {
   const audioRef = useRef(null);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
 
-  const handleExit = () => {
-    window.close();
-    // Stop and reset audio
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
-    }
-    // Reset all states
-    setShowApp(false);
-    setCurrentCardIndex(0);
-    // Reset scroll position
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollTo({
-        left: 0,
-        behavior: 'instant'
-      });
-    }
-  };
-
   const handleShowApp = () => {
     setShowApp(true);
     if (audioRef.current) {
@@ -53,17 +34,12 @@ const App = () => {
 
   const scroll = (direction) => {
     if (scrollContainerRef.current) {
-      const cardWidth = scrollContainerRef.current.offsetWidth;
+      const scrollAmount = 300;
       scrollContainerRef.current.scrollBy({
-        left: direction === 'left' ? -cardWidth : cardWidth,
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
         behavior: 'smooth'
       });
     }
-  };
-
-  // Add click handler for the arrow
-  const handleArrowClick = () => {
-    handleNextCard();
   };
 
   const handleNextCard = () => {
@@ -101,9 +77,9 @@ const App = () => {
       gradient: 'from-purple-600 via-pink-600 to-red-600',
       content: (
         <>
-          <i className="text-lg sm:text-xl mb-6 text-center text-gray-200">
-            Wishing you the most amazing day, filled with love, laughter,enjoy and everything that makes you happy ✨
-          </i>
+          <p className="text-lg sm:text-xl mb-6 text-center text-gray-200">
+            Wishing you the most amazing day, filled with love, laughter, and everything that makes you happy ✨
+          </p>
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -212,6 +188,7 @@ const App = () => {
           <p> Sorry for taking the picture without your permission, I do apologize and will delete the pics after this. </p>
           <p>I plan a lot of things,but in the end,life follows the script written by destiny.</p>
           <section><i>Thank you for making beautiful Captures in my life,I never forgot it..!</i></section>
+
         </div>
       )
     }
@@ -233,9 +210,9 @@ const App = () => {
           <AnimatedBackground />
           <MagicalCursor />
 
-          {/* Add the blinking arrow with click handler */}
+          {/* Add the blinking arrow */}
           <motion.div 
-            className="absolute top-4 right-4 z-20 cursor-pointer"
+            className="absolute top-4 right-4 z-20"
             animate={{ 
               x: [0, 10, 0],
               opacity: [1, 0.5, 1]
@@ -245,8 +222,6 @@ const App = () => {
               repeat: Infinity,
               ease: "easeInOut"
             }}
-            onClick={handleArrowClick}
-            style={{ display: currentCardIndex === sections.length - 1 ? 'none' : 'block' }}
           >
             <ChevronRight className="w-8 h-8 text-white/70" />
           </motion.div>
@@ -254,8 +229,7 @@ const App = () => {
           <div className="relative z-10 py-8 px-4">
             <div
               ref={scrollContainerRef}
-              className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-8 scroll-smooth"
-              style={{ scrollSnapType: 'x mandatory' }}
+              className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-8"
             >
              {sections.map((section, index) => {
                   const Icon = section.Icon;       // Get Icon component
@@ -269,9 +243,9 @@ const App = () => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3, duration: 0.5 }}
                     >
-                      <Card className="bg-white/[0.01] backdrop-blur-[1px] border border-white/5 transition-all duration-300 hover:bg-white/[0.05] overflow-hidden relative">
+                      <Card className="bg-white/[0.01] backdrop-blur-[1px] border border-white/5 transition-all duration-300 hover:bg-white/[0.05] overflow-hidden">
                         <CardHeader>
-                          <CardTitle className="flex items-center justify-center gap-1 text-2xl">
+                          <CardTitle className="flex items-center justify-center gap-2 text-2xl">
                             <Icon className={`w-6 h-6 bg-gradient-to-r ${gradient} rounded-full p-1`} />
                             <span className={`bg-gradient-to-r ${gradient} inline-block text-transparent bg-clip-text`}>
                               {section.title}
@@ -280,14 +254,6 @@ const App = () => {
                         </CardHeader>
                         <CardContent>{section.content}</CardContent>
                       </Card>
-                      {index === 4 && (
-                        <button
-                          onClick={handleExit}
-                          className="mt-6 mx-auto block text-white/70 hover:text-white transition-colors border border-red-500 rounded-md px-4 py-2"
-                        >
-                          Exit
-                        </button>
-                      )}
                     </motion.div>
                   );
                 })}
