@@ -24,6 +24,25 @@ const App = () => {
   const audioRef = useRef(null);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
 
+  const handleExit = () => {
+    window.close();
+    // Stop and reset audio
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+    // Reset all states
+    setShowApp(false);
+    setCurrentCardIndex(0);
+    // Reset scroll position
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({
+        left: 0,
+        behavior: 'instant'
+      });
+    }
+  };
+
   const handleShowApp = () => {
     setShowApp(true);
     if (audioRef.current) {
@@ -263,7 +282,7 @@ const App = () => {
                       </Card>
                       {index === 4 && (
                         <button
-                          onClick={() => window.location.reload()}
+                          onClick={handleExit}
                           className="mt-6 mx-auto block text-white/70 hover:text-white transition-colors border border-red-500 rounded-md px-4 py-2"
                         >
                           Exit
