@@ -71,13 +71,13 @@ const App = () => {
     // hero section
     {
       id: 'hero',
-      title: `Happy Birthday, ${girlName}!`,
+      title: `Happy Birthday, ${girlName}`,
       Icon: Cake,
       gradient: 'from-purple-600 via-pink-600 to-red-600',
       content: (
         <>
           <p className="text-lg sm:text-xl mb-6 text-center text-gray-200">
-            Wishing you the most amazing day, filled with love, laughter, and everything that makes you happy ✨!
+            Wishing you the most amazing day, filled with love, laughter, and everything that makes you happy ✨
           </p>
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
@@ -139,6 +139,7 @@ const App = () => {
           <p>Blessed with wonderful friends like Divya and Amrutha!</p>
           <p>Their bond is full of support, joy, and understanding.</p>
           <p>You enjoy with friends Especially loves delicious Biryani party!</p>
+          <p>Best Dancing partner ever !</p>
           <div className="flex justify-center space-x-4 pt-4">
             <img
               alt="Friend group"
@@ -166,7 +167,7 @@ const App = () => {
           </div>
           <div className='mt-4 text-sm italic text-gray-400'>
           <i>"Hey, I just wanted to say something honestly... I really hope you'll always stay close. I'd love for us to keep making memories — countless ones — and share many more moments with you, just like we always do with your permission."</i>
-          <br></br><i>"These moments are  more than enough for me. I know you're in love with someone, I understand you have some limitations with other people like me also, that's why I'm not disturbing you. I just want  you to be Happy,so i will always support and respect your decisions. i hope you are made for each other,enjoy every moments."</i>
+          <br></br><i>"These moments are  more than enough for me. I know you're in love with someone, I can understand you have some limitations with other people like me also, that's why I'm not disturbing you anymore. I just want you to be Happy,so i will always support and respect your decisions. Finally I wish you both a lifetime filled with love ❤️,happiness and endless togetherness. May your bond grow stronger each day and last forever!"</i>
           </div>
         </>
       )
@@ -183,7 +184,10 @@ const App = () => {
           <p>"Keep shining, dreaming, and being the incredible person you are."</p>
           <p>"Sending you all love on your special day and always!"</p>
           <p>Once again, Happy Birthday! No matter the past, you've always had a special place to me.</p>
-          <section><i>Thank you for making beautiful memories in my life ❤️!</i></section>
+          <p> Sorry for taking the picture without your permission, I do apologize and will delete the pics after this. </p>
+          <p>I plan a lot of things,but in the end,life follows the script written by destiny.</p>
+          <section><i>Thank you for making beautiful Captures in my life,I never forgot it..!</i></section>
+
         </div>
       )
     }
