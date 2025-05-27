@@ -15,6 +15,7 @@ import image14 from './asserts/image14.jpg';
 import image20 from './asserts/image20.jpg';
 import pencil from './asserts/pencil.jpg';
 import bgMusic from './asserts/Audio_bgm.mp3';
+import { ChevronRight } from "lucide-react";
 
 const App = () => {
   const [showApp, setShowApp] = useState(false);
@@ -76,9 +77,9 @@ const App = () => {
       gradient: 'from-purple-600 via-pink-600 to-red-600',
       content: (
         <>
-          <p className="text-lg sm:text-xl mb-6 text-center text-gray-200">
-            Wishing you the most amazing day, filled with love, laughter, and everything that makes you happy ✨
-          </p>
+          <i className="text-lg sm:text-xl mb-6 text-center text-gray-200">
+            Wishing you the most amazing day, filled with love, laughter,enjoy and everything that makes you happy ✨
+          </i>
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -187,7 +188,6 @@ const App = () => {
           <p> Sorry for taking the picture without your permission, I do apologize and will delete the pics after this. </p>
           <p>I plan a lot of things,but in the end,life follows the script written by destiny.</p>
           <section><i>Thank you for making beautiful Captures in my life,I never forgot it..!</i></section>
-
         </div>
       )
     }
@@ -208,6 +208,24 @@ const App = () => {
         >
           <AnimatedBackground />
           <MagicalCursor />
+
+          {/* Add the blinking arrow */}
+          <motion.div 
+            className="absolute top-4 right-4 z-20"
+            animate={{ 
+              x: [0, 10, 0],
+              opacity: [1, 0.5, 1]
+            }}
+            transition={{ 
+              duration: 1.5,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+            style={{ display: currentCardIndex === 4 ? 'none' : 'block' }}
+          >
+            <ChevronRight className="w-8 h-8 text-white/70" />
+          </motion.div>
+
           <div className="relative z-10 py-8 px-4">
             <div
               ref={scrollContainerRef}
@@ -225,10 +243,10 @@ const App = () => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3, duration: 0.5 }}
                     >
-                      <Card className="bg-white/[0.01] backdrop-blur-[1px] border border-white/5 transition-all duration-300 hover:bg-white/[0.05] overflow-hidden">
+                      <Card className="bg-white/[0.01] backdrop-blur-[1px] border border-white/5 transition-all duration-300 hover:bg-white/[0.05] overflow-hidden relative">
                         <CardHeader>
-                          <CardTitle className="flex items-center justify-center gap-2 text-2xl">
-                            <Icon className={`w-6 h-6 bg-gradient-to-r ${gradient} rounded-full p-1`} />
+                          <CardTitle className="flex items-center justify-center gap-1 text-2xl">
+                            <Icon className={`w-7 h-6 bg-gradient-to-r ${gradient} rounded-full p-1`} />
                             <span className={`bg-gradient-to-r ${gradient} inline-block text-transparent bg-clip-text`}>
                               {section.title}
                             </span>
@@ -236,6 +254,14 @@ const App = () => {
                         </CardHeader>
                         <CardContent>{section.content}</CardContent>
                       </Card>
+                      {index === 4 && (
+                        <button
+                          onClick={() => window.location.reload()}
+                          className="mt-6 mx-auto block text-white/70 hover:text-white transition-colors border border-red-500 rounded-md px-4 py-2"
+                        >
+                          Exit
+                        </button>
+                      )}
                     </motion.div>
                   );
                 })}

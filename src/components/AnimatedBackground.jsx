@@ -9,8 +9,8 @@ import React from 'react';
       const items = [
         { id: 'star1', Icon: Star, color: 'text-yellow-400', size: 'w-4 h-4', duration: 12, delay: 0 },
         { id: 'star2', Icon: Star, color: 'text-yellow-300', size: 'w-3 h-3', duration: 18, delay: 1.5 },
-        { id: 'star3', Icon: Star, color: 'text-yellow-500', size: 'w-5 h-5', duration: 10, delay: 3 },
-        { id: 'star4', Icon: Star, color: 'text-indigo-300', size: 'w-3 h-3', duration: 20, delay: 5 },
+        // { id: 'star3', Icon: Star, color: 'text-yellow-500', size: 'w-5 h-5', duration: 10, delay: 3 },
+        // { id: 'star4', Icon: Star, color: 'text-indigo-300', size: 'w-3 h-3', duration: 20, delay: 5 },
         { id: 'star5', Icon: Star, color: 'text-pink-400', size: 'w-4 h-4', duration: 14, delay: 7 },
         
         // { id: 'zap1', Icon: Zap, color: 'text-cyan-300', size: 'w-4 h-4', duration: 15, delay: 0.5 },
@@ -26,7 +26,7 @@ import React from 'react';
         { id: 'emojiCute1', Icon: () => <span className="text-2xl">🥰</span>, duration: 16, delay: 5.5 },
         { id: 'emojiAngry1', Icon: () => <Angry className="text-orange-500 w-5 h-5" />, duration: 22, delay: 7.2 },
         
-        { id: 'emojiParty1', Icon: () => <span className="text-2xl">🥳</span>, duration: 17, delay: 0.8 },
+        { id: 'emojiParty1', Icon: () => <span className="text-2xl"></span>, duration: 17, delay: 0.8 },
         { id: 'emojiCake1', Icon: () => <span className="text-xl">💕</span>, duration: 21, delay: 4.5 },
         { id: 'emojiLove2', Icon: () => <span className="text-xl">💖</span>, duration: 19, delay: 6 },
         { id: 'emojiGift2', Icon: () => <Gift className="text-green-400 w-6 h-6" />, duration: 14, delay: 8.5 },
