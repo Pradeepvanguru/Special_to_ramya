@@ -47,7 +47,12 @@ const App = () => {
       const timer = setInterval(() => {
         setCurrentCardIndex(prevIndex => {
           if (prevIndex < sections.length - 1) {
-            scroll('right');
+            if (scrollContainerRef.current) {
+              scrollContainerRef.current.scrollTo({
+                left: (prevIndex + 1) * window.innerWidth,
+                behavior: 'smooth'
+              });
+            }
             return prevIndex + 1;
           } else {
             clearInterval(timer);
@@ -59,6 +64,24 @@ const App = () => {
       return () => clearInterval(timer);
     }
   }, [showApp, currentCardIndex]);
+
+  // Add scroll event listener to update currentCardIndex
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      const scrollPosition = container.scrollLeft;
+      const cardWidth = window.innerWidth;
+      const newIndex = Math.round(scrollPosition / cardWidth);
+      if (newIndex !== currentCardIndex) {
+        setCurrentCardIndex(newIndex);
+      }
+    };
+
+    container.addEventListener('scroll', handleScroll);
+    return () => container.removeEventListener('scroll', handleScroll);
+  }, [currentCardIndex]);
 
   // Add touch event handlers for swipe detection
   useEffect(() => {
@@ -213,7 +236,7 @@ const App = () => {
             ))}
           </div>
           <div className='mt-4 text-sm italic text-gray-400'>
-          <i>"Hey, I just wanted to say something honestly... I really hope you'll always stay close. I'd love for us to keep making memories — countless ones — and share many more moments with you, just like we always do with your permission."</i>
+          <i>"Hey, I just wanted to say something honestly... I really hope you'll always stay close. I'd like for us to keep making memories — countless ones — and share many more moments with you, just like we always do with your permission."</i>
           <br></br><i>"These moments are  more than enough for me.I understand that your heart belongs to someone special, and I respect the boundaries that come with that. I want nothing more than your happiness, so I'll always honor your choices with the deepest respect.that's why I'm not disturbing you anymore.Finally I wish you both a lifetime filled with love ❤️,happiness and endless togetherness. May your bond grow stronger each day and last forever!"</i>
           </div>
           <div className="fixed bottom-4 right-4 animate-pulse text-white text-3xl z-50">
@@ -243,7 +266,7 @@ const App = () => {
               onClick={() => window.history.back()}
               className="px-7 py-2 border border-blue-500 text-white-500 rounded-lg  hover:text-red-500 transition-all"
             >
-              Exit
+              Click to watch  More surprice for you ⬇️
             </button>
           </div>
         </div>
@@ -268,6 +291,27 @@ const App = () => {
         <MagicalCursor />
 
         <div className="relative z-10 py-8 px-4">
+          {/* Navigation toggles with numbers */}
+          <div className="flex justify-center gap-3 mb-4">
+            {sections.map((section, idx) => (
+              <motion.div
+                key={section.id}
+                className={`w-6 h-6 rounded-full cursor-pointer transition-all flex items-center justify-center ${currentCardIndex === idx ? 'bg-white text-black' : 'bg-white/30 text-white'}`}
+                whileHover={{ scale: 1.2 }}
+                onClick={() => {
+                  setCurrentCardIndex(idx);
+                  if (scrollContainerRef.current) {
+                    scrollContainerRef.current.scrollTo({
+                      left: idx * window.innerWidth,
+                      behavior: 'smooth'
+                    });
+                  }
+                }}
+              >
+                <span className="text-xs font-medium">{idx + 1}</span>
+              </motion.div>
+            ))}
+          </div>
           <div
             ref={scrollContainerRef}
             className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-8 scroll-smooth"
