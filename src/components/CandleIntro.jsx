@@ -122,7 +122,7 @@ const CandleIntro = ({ onComplete }) => {
             }}
             whileTap={{ scale: 0.95 }}
           >
-            Look it ✨
+            Play ✨
           </motion.button>
         )}
       </div>
