@@ -60,6 +60,49 @@ const App = () => {
     }
   }, [showApp, currentCardIndex]);
 
+  // Add touch event handlers for swipe detection
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    const handleTouchStart = (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    };
+
+    const handleTouchEnd = (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    };
+
+    const handleSwipe = () => {
+      const difference = touchStartX - touchEndX;
+      if (difference > 50) {
+        // Swipe left - go to next card
+        if (currentCardIndex < sections.length - 1) {
+          setCurrentCardIndex(prev => prev + 1);
+          scroll('right');
+        }
+      } else if (difference < -50) {
+        // Swipe right - go to previous card
+        if (currentCardIndex > 0) {
+          setCurrentCardIndex(prev => prev - 1);
+          scroll('left');
+        }
+      }
+    };
+
+    container.addEventListener('touchstart', handleTouchStart);
+    container.addEventListener('touchend', handleTouchEnd);
+
+    return () => {
+      container.removeEventListener('touchstart', handleTouchStart);
+      container.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [currentCardIndex]);
+
   const sections = [
     // hero section
     {
@@ -69,10 +112,6 @@ const App = () => {
       gradient: 'from-purple-600 via-pink-600 to-red-600',
       content: (
         <>
-        <div className="fixed bottom-4 right-4 animate-pulse text-white text-3xl z-50">
-          →
-        </div>
- 
           <p className="text-lg sm:text-xl mb-6 text-center text-gray-200">
             Wishing you the most amazing day, filled with love, laughter, and everything that makes you happy ✨
           </p>
@@ -95,6 +134,9 @@ const App = () => {
               💖
             </motion.div>
           </motion.div>
+           <div className="fixed bottom-4 right-4 animate-pulse text-white text-3xl z-50">
+          →
+        </div>
         </>
       )
     },
@@ -106,9 +148,6 @@ const App = () => {
       gradient: 'from-indigo-500 via-purple-600 to-pink-600',
       content: (
         <div className="space-y-4 text-center text-gray-300">
-        <div className="fixed bottom-4 right-4 animate-pulse text-white text-3xl z-50">
-          →
-        </div>
           <p className="flex items-center justify-center"><Heart className="w-5 h-5 mr-2 text-red-400" /> An independent spirit, brave, inspiring and fire brand🔥.</p>
           <p className="flex items-center justify-center"><Eye className="w-5 h-5 mr-2 text-sky-400" /> Those attractive eyes that light up any room!</p>
           <p className="flex items-center justify-center"><Mic className="w-5 h-5 mr-2 text-teal-300" /> A talented dancer and a captivating singer.</p>
@@ -125,6 +164,10 @@ const App = () => {
               src={pic1}
             />
           </motion.div>
+
+          <div className="fixed bottom-4 right-4 animate-pulse text-white text-3xl z-50">
+          →
+        </div>
         </div>
       )
     },
@@ -136,9 +179,6 @@ const App = () => {
       gradient: 'from-orange-500 via-red-600 to-pink-700',
       content: (
         <div className="text-center space-y-3 text-gray-300">
-        <div className="fixed bottom-4 right-4 animate-pulse text-white text-3xl z-50">
-          →
-        </div>
           <p>Blessed with wonderful friends like Divya and Amrutha!</p>
           <p>Their bond is full of support, joy, and understanding.</p>
           <p>You enjoy with friends Especially loves delicious Biryani party!</p>
@@ -150,6 +190,10 @@ const App = () => {
               src={friend}
             />
           </div>
+
+          <div className="fixed bottom-4 right-4 animate-pulse text-white text-3xl z-50">
+          →
+        </div>
         </div>
       )
     },
@@ -162,9 +206,6 @@ const App = () => {
       content: (
         <>
           <div className="grid grid-cols-4 gap-4 pt-2">
-          <div className="fixed bottom-4 right-4 animate-pulse text-white text-3xl z-50">
-          →
-        </div>
             {[fav, image14, image20, pencil].map((src, idx) => (
               <motion.div key={idx} whileHover={{ scale: 1.05 }} transition={{ type: 'spring', stiffness: 300 }}>
                 <img alt={`Memory ${idx}`} className="w-full h-42 object-cover rounded-lg shadow-md" src={src} />
@@ -173,8 +214,11 @@ const App = () => {
           </div>
           <div className='mt-4 text-sm italic text-gray-400'>
           <i>"Hey, I just wanted to say something honestly... I really hope you'll always stay close. I'd love for us to keep making memories — countless ones — and share many more moments with you, just like we always do with your permission."</i>
-          <br></br><i>"These moments are  more than enough for me. I know you're in love with someone, I can understand you have some limitations with other people like me also, that's why I'm not disturbing you anymore. I just want you to be Happy,so i will always support and respect your decisions. Finally I wish you both a lifetime filled with love ❤️,happiness and endless togetherness. May your bond grow stronger each day and last forever!"</i>
+          <br></br><i>"These moments are  more than enough for me.I understand that your heart belongs to someone special, and I respect the boundaries that come with that. I want nothing more than your happiness, so I'll always honor your choices with the deepest respect.that's why I'm not disturbing you anymore.Finally I wish you both a lifetime filled with love ❤️,happiness and endless togetherness. May your bond grow stronger each day and last forever!"</i>
           </div>
+          <div className="fixed bottom-4 right-4 animate-pulse text-white text-3xl z-50">
+          →
+        </div>
         </>
       )
     },
@@ -190,96 +234,75 @@ const App = () => {
           <p>"Keep shining, dreaming, and being the incredible person you are."</p>
           <p>"Sending you all love on your special day and always!"</p>
           <p>Once again, Happy Birthday! No matter the past, you've always had a special place to me.</p>
-          <p> Sorry for taking the picture without your permission, I do apologize and will delete the pics after this. </p>
+          <p> Sorry for taking the picture without your permission, I will delete the pics after this. </p>
           <p>I plan a lot of things,but in the end,life follows the script written by destiny.</p>
           <section><i>Thank you for making beautiful Captures in my life,I never forgot it..!</i></section>
            {/* Exit Button */}
-      <div className="flex justify-center mt-8">
-        <button
-         onClick={() => window.history.back()}
-          className="px-7 py-2 border border-blue-500 text-white-500 rounded-lg hover:bg-red-500 hover:text-white transition-all"
-        >
-          Exit
-        </button>
-      </div>
+          <div className="flex justify-center mt-8">
+            <button
+              onClick={() => window.history.back()}
+              className="px-7 py-2 border border-blue-500 text-white-500 rounded-lg  hover:text-red-500 transition-all"
+            >
+              Exit
+            </button>
+          </div>
         </div>
       )
     }
   ];
 
-  // //onClick={() => scroll('right')}
-
   return (
-      <>
-        <audio ref={audioRef} src={bgMusic} loop />
-        <AnimatePresence>
-          {!showApp && <CandleIntro onComplete={handleShowApp} />}
-        </AnimatePresence>
+    <>
+      <audio ref={audioRef} src={bgMusic} loop />
+      <AnimatePresence>
+        {!showApp && <CandleIntro onComplete={handleShowApp} />}
+      </AnimatePresence>
 
-        <motion.div
-          className="min-h-screen bg-black text-white relative overflow-hidden"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: showApp ? 1 : 0 }}
-          transition={{ duration: 1.5, delay: 0.5 }}
-        >
-          <AnimatedBackground />
-          <MagicalCursor />
+      <motion.div
+        className="min-h-screen bg-black text-white relative overflow-hidden"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: showApp ? 1 : 0 }}
+        transition={{ duration: 1.5, delay: 0.5 }}
+      >
+        <AnimatedBackground />
+        <MagicalCursor />
 
-          <motion.div 
-            className="absolute top-4 right-4 z-20"
-            animate={{ 
-              x: [0, 10, 0],
-              opacity: [1, 0.5, 1]
-            }}
-            transition={{ 
-              duration: 1.5,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            style={{ display: currentCardIndex === sections.length - 1 ? 'none' : 'block' }}
+        <div className="relative z-10 py-8 px-4">
+          <div
+            ref={scrollContainerRef}
+            className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-8 scroll-smooth"
+            style={{ scrollSnapType: 'x mandatory' }}
           >
-            <ChevronRight className="w-8 h-8 text-white/70 cursor-pointer"  /> 
-            {/* <div className="fixed bottom-4 right-4 animate-pulse text-white text-3xl z-50">
-          →
-        </div> */}
-          </motion.div>
+            {sections.map((section, index) => {
+              const Icon = section.Icon;
+              const gradient = section.gradient;
 
-          <div className="relative z-10 py-8 px-4">
-            <div
-              ref={scrollContainerRef}
-              className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-8 scroll-smooth"
-              style={{ scrollSnapType: 'x mandatory' }}
-            >
-              {sections.map((section, index) => {
-                const Icon = section.Icon;
-                const gradient = section.gradient;
-
-                return (
-                  <motion.div
-                    key={section.id}
-                    className="min-w-full snap-center px-4"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3, duration: 0.5 }}
-                  >
-                    <Card className="bg-white/[0.01] backdrop-blur-[1px] border border-white/5 transition-all duration-300 hover:bg-white/[0.05] overflow-hidden">
-                      <CardHeader>
-                        <CardTitle className="flex items-center justify-center gap-1 text-2xl">
-                          <Icon className={`w-6 h-6 bg-gradient-to-r ${gradient} rounded-full p-1`} />
-                          <span className={`bg-gradient-to-r ${gradient} inline-block text-transparent bg-clip-text`}>
-                            {section.title}
-                          </span>
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent>{section.content}</CardContent>
-                    </Card>
-                  </motion.div>
-                );
-              })}
-            </div>
+              return (
+                <motion.div
+                  key={section.id}
+                  className="min-w-full snap-center px-4"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3, duration: 0.5 }}
+                >
+                  <Card className="bg-white/[0.01] backdrop-blur-[1px] border border-white/5 transition-all duration-300 hover:bg-white/[0.05] overflow-hidden">
+                    <CardHeader>
+                      <CardTitle className="flex items-center justify-center gap-1 text-2xl">
+                        <Icon className={`w-6 h-6 bg-gradient-to-r ${gradient} rounded-full p-1`} />
+                        <span className={`bg-gradient-to-r ${gradient} inline-block text-transparent bg-clip-text`}>
+                          {section.title}
+                        </span>
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>{section.content}</CardContent>
+                  </Card>
+                </motion.div>
+              );
+            })}
           </div>
-        </motion.div>
-      </>
+        </div>
+      </motion.div>
+    </>
   );
 };
 

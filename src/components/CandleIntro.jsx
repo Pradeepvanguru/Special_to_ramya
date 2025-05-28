@@ -17,7 +17,7 @@ const CandleIntro = ({ onComplete }) => {
     "Warning:Excessive cuteness ahead!",
     "Loading happiness... Please wait! ⌛",
     "Preparing something special just for you... ✨",
-    "Did you know? Birthdays are good for your health! Studies show people who have more birthdays live longer! 😄"
+    "Did you know? Birthdays are good for your health! Studies show people who have more birthdays live longer!"
   ];
 
   useEffect(() => {
@@ -95,7 +95,7 @@ const CandleIntro = ({ onComplete }) => {
               ease: "linear"
             }}
           >
-            {['♪', '♫', '♬', '♩', '', '💕', '', '💫', '✨', '🎵', '🎶', '🌟', '⭐', '🎊', '🎉'][index % 17]}
+            {['♪', '♫', '♬', '♩', '', '💕', '', '💫', '✨', '🎵', '🎶', '', '', '', '🎉'][index % 17]}
           </motion.div>
         ))
       )}
@@ -122,7 +122,7 @@ const CandleIntro = ({ onComplete }) => {
             }}
             whileTap={{ scale: 0.95 }}
           >
-            Cut it ✨
+            Look it ✨
           </motion.button>
         )}
       </div>
