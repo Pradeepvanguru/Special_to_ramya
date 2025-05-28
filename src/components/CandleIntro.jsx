@@ -1,21 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import MagicalCursor from './MagicalCursor';
-import candleVideo from '../asserts/candle.mp4';
 import fluteMusic from '../asserts/flute.mp3';
 
 const CandleIntro = ({ onComplete }) => {
   const [isLit, setIsLit] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentMessage, setCurrentMessage] = useState(0);
-  const [hasBroken, setHasBroken] = useState(false); // <-- NEW FLAG
+  const [hasBroken, setHasBroken] = useState(false);
   const audioRef = useRef(null);
 
   const funMessages = [
     "Click anywhere to start the magical journey! ✨",
     "What did the candle say to the cake? You're looking sweet!",
     "Roses are red, violets are blue, this birthday surprise is just for you!",
-    "Warning: Excessive cuteness ahead! 🥰",
+    "Warning:Excessive cuteness ahead!",
     "Loading happiness... Please wait! ⌛",
     "Preparing something special just for you... ✨",
     "Did you know? Birthdays are good for your health! Studies show people who have more birthdays live longer! 😄"
@@ -31,40 +30,36 @@ const CandleIntro = ({ onComplete }) => {
   }, [isPlaying]);
 
   const startAudio = async () => {
-  if (hasBroken) return; // <-- PREVENT clicks after breaking magic
-  try {
-    if (audioRef.current && !isPlaying) {
-      audioRef.current.volume = 0.1;
-      audioRef.current.loop = false;
-      await audioRef.current.play();
-      setIsPlaying(true);
+    if (hasBroken) return;
+    try {
+      if (audioRef.current && !isPlaying) {
+        audioRef.current.volume = 0.1;
+        audioRef.current.loop = false;
+        await audioRef.current.play();
+        setIsPlaying(true);
 
-      // Set timer to auto-break magic after 10 seconds if user doesn't click
-      setTimeout(() => {
-        if (!hasBroken) {
-          handleBreakMagic();
-        }
-      }, 10000); // 10 seconds
+        setTimeout(() => {
+          if (!hasBroken) {
+            handleBreakMagic();
+          }
+        }, 10000);
+      }
+    } catch (error) {
+      console.error('Audio playback failed:', error);
     }
-  } catch (error) {
-    console.error('Audio playback failed:', error);
-  }
-};
-
+  };
 
   const handleBreakMagic = () => {
-    setHasBroken(true); // <-- Set flag to block further clicks
-    setIsLit(false);    // <-- Animate fade out
+    setHasBroken(true);
+    setIsLit(false);
 
-    // Stop music if playing
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
     }
 
-    // Wait for fade-out animation then redirect (trigger onComplete)
     setTimeout(() => {
-      onComplete(); // <-- Usually used to route to <App />
+      onComplete();
     }, 1000);
   };
 
@@ -100,36 +95,12 @@ const CandleIntro = ({ onComplete }) => {
               ease: "linear"
             }}
           >
-            {['♪', '♫', '♬', '♩', '❤️', '💕', '🥰', '💫', '✨', '🎵', '🎶', '🌟', '⭐', '🎊', '🎉'][index % 17]}
+            {['♪', '♫', '♬', '♩', '', '💕', '', '💫', '✨', '🎵', '🎶', '🌟', '⭐', '🎊', '🎉'][index % 17]}
           </motion.div>
         ))
       )}
 
       <div className="text-center max-w-2xl mx-auto px-4">
-        {/* Candle */}
-        <motion.div
-          className="relative w-72 mx-auto mb-8"
-          animate={{
-            scale: [1, 1.05, 1],
-            rotate: [0, 1, 0]
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        >
-          <video
-            autoPlay
-            loop
-            muted
-            className="w-full rounded-lg shadow-2xl"
-            style={{ display: isLit ? 'block' : 'none' }}
-          >
-            <source src={candleVideo} type="video/mp4" />
-          </video>
-        </motion.div>
-
         <motion.p
           className="text-white text-lg mb-6 h-16 flex items-center justify-center"
           key={currentMessage}
@@ -141,22 +112,17 @@ const CandleIntro = ({ onComplete }) => {
           {funMessages[currentMessage]}
         </motion.p>
 
-        {/* Break the Magic Button */}
         {isPlaying && !hasBroken && (
           <motion.button
             onClick={handleBreakMagic}
             className="px-8 py-4 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 rounded-full text-white font-bold shadow-lg text-lg"
             whileHover={{ 
               scale: 1.1,
-              boxShadow: '0 0 20px rgba(255,255,255,0.5)'
+              boxShadow: '0 0 20px rgba(255,255,255,0.3)'
             }}
             whileTap={{ scale: 0.95 }}
-            animate={{
-              boxShadow: ['0 0 10px rgba(255,255,255,0.2)', '0 0 20px rgba(255,255,255,0.5)', '0 0 10px rgba(255,255,255,0.2)']
-            }}
-            transition={{ duration: 2, repeat: Infinity }}
           >
-            Break the Magic ✨
+            Cut it ✨
           </motion.button>
         )}
       </div>
